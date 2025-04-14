@@ -42,7 +42,18 @@ list.add(map);
 			</thead>
 			<tbody>
 			<%
+				String keyword = request.getParameter("keyword");
+				String pointFilter = request.getParameter("pointFilter");
+				// pointFilter    null(체크 안 됨)   or  "true"(체크 됨, 제외시킴)
+				boolean exclude = pointFilter != null; // 체크됨(4점 이하 제외)
+			
 				for (Map<String, Object> item : list) {
+					if (keyword.equals(item.get("menu"))) {
+						// skip 조건이 체크되어 있고 스킵 되어야 하는 경우 continue
+						// exclude가 참 그러면서 4점 이하 제외 => skip
+						if (exclude && (double)item.get("point") <= 4.0) {
+							continue;
+						}
 			%>
 				<tr>
 					<td><%= item.get("menu") %></td>
@@ -50,6 +61,7 @@ list.add(map);
 					<td><%= item.get("point") %></td>
 				</tr>
 			<%
+					} 
 				}
 			%>
 			</tbody>
