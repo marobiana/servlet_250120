@@ -97,6 +97,19 @@ footer {height:100px;}
     musicInfo.put("lyricist", "아이유");
     musicList.add(musicInfo);
 %>
+<%
+	int id = Integer.valueOf(request.getParameter("id"));
+	Map<String, Object> target = null;
+	
+	for (Map<String, Object> music : musicList) {
+		if (id == (int)music.get("id")) {
+			target = music;
+			break;
+		}
+	}
+	
+	out.print(target);
+%>
 	<div id="wrap" class="container">
 		<header class="d-flex align-items-center">
 			<%-- 로고 --%>
@@ -106,12 +119,14 @@ footer {height:100px;}
 			
 			<%-- 검색 --%>
 			<div class="col-10">
-				<div class="input-group">
-					<input type="text" class="form-control col-6" >
-					<div class="input-group-append">
-						<button class="btn btn-info" type="button">검색</button>
+				<form method="get" action="/lesson02/quiz10_1.jsp">
+					<div class="input-group">
+						<input type="text" name="search" class="form-control col-6" >
+						<div class="input-group-append">
+							<button class="btn btn-info" type="submit">검색</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</header>
 		<nav>
@@ -128,12 +143,12 @@ footer {height:100px;}
 			<div class="d-flex border border-success p-3">
 				<%-- 이미지 --%>
 				<div class="mr-3">
-					<img src="" alt="아이유 이미지" width="150">
+					<img src="<%= target.get("thumbnail") %>" alt="아이유 이미지" width="150">
 				</div>
 				<%-- 정보 --%>
 				<div>
-					<div class="display-4">삐삐</div>
-					<div class="text-success font-weight-bold">가수명</div>
+					<div class="display-4"><%= target.get("title") %></div>
+					<div class="text-success font-weight-bold"><%= target.get("singer") %></div>
 					<div class="d-flex text-secondary mt-3">
 						<div>
 							<div>앨범</div>
@@ -142,10 +157,10 @@ footer {height:100px;}
 							<div>작사가</div>
 						</div>
 						<div class="ml-4">
-							<div>삐삐</div>
-							<div>3:14</div>
-							<div>이종훈</div>
-							<div>아이유</div>
+							<div><%= target.get("album") %></div>
+							<div><%= (int)target.get("time") / 60 %>:<%= (int)target.get("time") % 60 %></div>
+							<div><%= target.get("composer") %></div>
+							<div><%= target.get("lyricist") %></div>
 						</div>
 					</div>
 				</div>

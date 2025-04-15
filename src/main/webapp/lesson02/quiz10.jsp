@@ -106,12 +106,14 @@ footer {height:100px;}
 			
 			<%-- 검색 --%>
 			<div class="col-10">
-				<div class="input-group">
-					<input type="text" class="form-control col-6" >
-					<div class="input-group-append">
-						<button class="btn btn-info" type="button">검색</button>
+				<form method="get" action="/lesson02/quiz10_1.jsp">
+					<div class="input-group">
+						<input type="text" name="search" class="form-control col-6" >
+						<div class="input-group-append">
+							<button class="btn btn-info" type="submit">검색</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</header>
 		<nav>
@@ -149,11 +151,17 @@ footer {height:100px;}
 						</tr>
 					</thead>
 					<tbody>
+					<%
+						for (Map<String, Object> music : musicList) {
+					%>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><%= music.get("id") %></td>
+							<td><a href="/lesson02/quiz10_1.jsp?id=<%= music.get("id") %>"><%= music.get("title") %></a></td>
+							<td><%= music.get("album") %></td>
 						</tr>
+					<%
+						}
+					%>
 					</tbody>
 				</table>
 			</div>
