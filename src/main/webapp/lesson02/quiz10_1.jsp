@@ -98,13 +98,28 @@ footer {height:100px;}
     musicList.add(musicInfo);
 %>
 <%
-	int id = Integer.valueOf(request.getParameter("id"));
 	Map<String, Object> target = null;
+
+	// 1) 목록에서 클릭(id)
+	if (request.getParameter("id") != null) {		
+		int id = Integer.valueOf(request.getParameter("id"));
+		
+		for (Map<String, Object> music : musicList) {
+			if (id == (int)music.get("id")) {
+				target = music;
+				break;
+			}
+		}
+	}
 	
-	for (Map<String, Object> music : musicList) {
-		if (id == (int)music.get("id")) {
-			target = music;
-			break;
+	// 2) 상단에서 검색(search)
+	String search = request.getParameter("search");
+	if (search != null) {
+		for (Map<String, Object> music : musicList) {
+			if (music.get("title").equals(search)) {
+				target = music;
+				break;
+			}
 		}
 	}
 	
@@ -121,7 +136,7 @@ footer {height:100px;}
 			<div class="col-10">
 				<form method="get" action="/lesson02/quiz10_1.jsp">
 					<div class="input-group">
-						<input type="text" name="search" class="form-control col-6" >
+						<input type="text" name="search" class="form-control col-6">
 						<div class="input-group-append">
 							<button class="btn btn-info" type="submit">검색</button>
 						</div>
